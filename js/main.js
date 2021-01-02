@@ -13,9 +13,13 @@ const ref = {
   ),
 };
 
+ref.gallery.addEventListener('click', handleGalleryClick);
+ref.lightboxButton.addEventListener('click', handleCloseImg);
+ref.lightboxOverlay.addEventListener('click', handleBackdropClick);
+
 // Создание и рендер разметки по массиву данных и предоставленному шаблону.
 
-const createImgItem = function (item) {
+function createImgItem(item) {
   const itemRef = document.createElement('li');
   itemRef.classList.add('gallery__item');
 
@@ -33,7 +37,7 @@ const createImgItem = function (item) {
   linkRef.append(imgRef);
 
   return itemRef;
-};
+}
 
 const galleryItem = galleryItems.map(item => createImgItem(item));
 
@@ -42,8 +46,6 @@ ref.gallery.append(...galleryItem);
 // Реализация делегирования на галерее ul.js-gallery и получение url большого изображения.
 // Открытие модального окна по клику на элементе галереи.
 // Подмена значения атрибута src элемента img.lightbox__image.
-
-ref.gallery.addEventListener('click', handleGalleryClick);
 
 function handleGalleryClick(event) {
   event.preventDefault();
@@ -62,16 +64,12 @@ function handleGalleryClick(event) {
 // Закрытие модального окна по клику на кнопку button[data-action="close-lightbox"].
 // Очистка значения атрибута src элемента img.lightbox__image. Это необходимо для того, чтобы при следующем открытии модального окна, пока грузится изображение, мы не видели предыдущее.
 
-const handleCloseImg = function () {
+function handleCloseImg() {
   ref.lightbox.classList.remove('is-open');
   ref.lightboxImage.src = '';
-};
-
-ref.lightboxButton.addEventListener('click', handleCloseImg);
+}
 
 // Закрытие модального окна по клику на div.lightbox__overlay.
-
-ref.lightboxOverlay.addEventListener('click', handleBackdropClick);
 
 function handleBackdropClick(event) {
   if (event.target === event.currentTarget) {
